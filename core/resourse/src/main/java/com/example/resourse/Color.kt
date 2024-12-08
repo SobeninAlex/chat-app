@@ -17,12 +17,28 @@ val DividerColorLight = Color(0xFFE1E4E8)
 val DividerColorDark = Color(0xD33F3F42)
 
 val HyperLinkColor = Color(0xFF233C91)
+
 val BlackColor = Color(0xFF11161C)
-val WhiteColor = Color(0xFFFFFFFF)
-val LightGrayColor30 = Color.LightGray.copy(alpha = 0.3f)
-val LightGrayColor50 = Color.LightGray.copy(alpha = 0.5f)
-val GrayColor50 = Color.Gray.copy(alpha = 0.5f)
-val StarColor = Color(0xFFF5B80D)
-val GrayColor = Color.Gray
+val BlackColor50 = BlackColor.copy(alpha = .50f)
+val BlackColor30 = BlackColor.copy(alpha = .30f)
+val BlackColor20 = BlackColor.copy(alpha = .20f)
+val BlackColor10 = BlackColor.copy(alpha = .10f)
+val BlackColor05 = BlackColor.copy(alpha = .05f)
+
+val WhiteColor = Color.White
+val WhiteColor70 = WhiteColor.copy(alpha = .70f)
+val WhiteColor50 = WhiteColor.copy(alpha = .50f)
+val WhiteColor20 = WhiteColor.copy(alpha = .20f)
+
+val GrayColor = Color(0xFF697A8B)
+val GrayColor70 = Color(0xFF96A2AE)
+val GrayColor50 = Color(0xFFB4BCC5)
 val GrayColor20 = Color(0xFFE1E4E8)
 val GrayColor10 = Color(0xFFEDEFF0)
+
+val RedColor = Color(0xFFFF1F00)
+
+val GreenColor = Color(0xFF00A215)
+val GreenColor10 = GreenColor.copy(alpha = .1f)
+
+val ErrorColor = Color(0xFFF26D47)

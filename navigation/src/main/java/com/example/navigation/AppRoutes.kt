@@ -12,3 +12,14 @@ data object AuthGraph {
     data object SignUpRoute
 
 }
+
+@Serializable
+data object HomeGraph {
+
+    @Serializable
+    data object HomeRoute
+
+    @Serializable
+    data object ChatRoute
+
+}

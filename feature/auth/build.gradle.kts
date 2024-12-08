@@ -2,12 +2,14 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.serialization)
     alias(libs.plugins.parcelize)
 }
 
 android {
-    namespace = "com.example.utils"
+    namespace = "com.example.auth"
     compileSdk = 34
 
     defaultConfig {
@@ -39,17 +41,27 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+    implementation(project(":navigation"))
     implementation(project(":core:resourse"))
+    implementation(project(":core:utils"))
     implementation(project(":core:common"))
 
-    implementation(libs.kotlinx.serialization.core)
-    implementation(libs.kotlinx.serialization.json)
-
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
     implementation(libs.navigation.compose)
+
+    implementation(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    implementation(libs.coil.compose)
 
     implementation (libs.lottie.compose)
 

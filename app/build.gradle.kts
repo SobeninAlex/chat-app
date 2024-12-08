@@ -51,6 +51,8 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":navigation"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:auth"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
