@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.example.auth.sign_in.SignInScreen
 import com.example.auth.sign_up.SignUpScreen
 import com.example.navigation.AuthGraph
 import com.example.navigation.HomeGraph
@@ -62,10 +63,10 @@ fun MainNavGraph() {
                 }
             ) {
                 navigation<AuthGraph>(
-                    startDestination = AuthGraph.SignUpRoute
+                    startDestination = AuthGraph.SignInRoute
                 ) {
                     composable<AuthGraph.SignInRoute> {
-
+                        SignInScreen()
                     }
 
                     composable<AuthGraph.SignUpRoute> {

@@ -31,7 +31,7 @@ fun SubmitButton(
     ),
     elevation: ButtonElevation? = ButtonDefaults.buttonElevation(),
     border: BorderStroke? = null,
-    contentPadding: PaddingValues = PaddingValues(16.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     interactionSource: MutableInteractionSource? = null,
     content: @Composable RowScope.() -> Unit
 ) {
@@ -63,7 +63,7 @@ fun ApplyButton(
     ),
     elevation: ButtonElevation? = ButtonDefaults.buttonElevation(),
     border: BorderStroke? = null,
-    contentPadding: PaddingValues = PaddingValues(16.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     interactionSource: MutableInteractionSource? = null,
 ) {
     Button(

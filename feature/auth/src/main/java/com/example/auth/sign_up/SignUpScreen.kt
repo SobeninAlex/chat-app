@@ -6,17 +6,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.resourse.R
+import com.example.utils.presentation.compose.ApplyButton
 import com.example.utils.presentation.compose.LottieSimpleAnimation
 
 @Composable
@@ -45,14 +46,26 @@ private fun SignUpContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LottieSimpleAnimation(
-                modifier = Modifier.fillMaxWidth().height(120.dp),
-                animation = R.raw.anim_1
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp),
+                animation = R.raw.anim_1,
             )
 
-             OutlinedTextField(
-                 value = uiState.email,
-                 onValueChange = { event(SignUpEvent.ChangeEmail(it)) },
-             )
+            OutlinedTextField(
+                value = uiState.email,
+                onValueChange = { event(SignUpEvent.ChangeEmail(it)) },
+            )
+
+            OutlinedTextField(
+                value = uiState.password,
+                onValueChange = { event(SignUpEvent.ChangePassword(it)) },
+            )
+
+            ApplyButton(
+                text = stringResource(R.string.app_name),
+                onClick = {}
+            )
         }
     }
 }
