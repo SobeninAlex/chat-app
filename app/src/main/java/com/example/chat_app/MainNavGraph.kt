@@ -70,7 +70,7 @@ fun MainNavGraph() {
                     }
 
                     composable<AuthGraph.SignUpRoute> {
-                        SignUpScreen()
+
                     }
                 }
 
