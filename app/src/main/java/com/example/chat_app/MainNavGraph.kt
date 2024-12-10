@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.auth.sign_in.SignInScreen
 import com.example.auth.sign_up.SignUpScreen
 import com.example.navigation.AuthGraph
@@ -70,7 +71,8 @@ fun MainNavGraph() {
                     }
 
                     composable<AuthGraph.SignUpRoute> {
-
+                        val args = it.toRoute<AuthGraph.SignUpRoute>()
+                        SignUpScreen(email = args.email)
                     }
                 }
 

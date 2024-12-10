@@ -9,7 +9,9 @@ data object AuthGraph {
     data object SignInRoute
 
     @Serializable
-    data object SignUpRoute
+    data class SignUpRoute(
+        val email: String
+    )
 
 }
 

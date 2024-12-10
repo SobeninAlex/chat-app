@@ -45,6 +45,7 @@ fun PasswordFieldOutlined(
     readOnly: Boolean = false,
     textStyle: TextStyle = body2_Reg14.copy(color = MaterialTheme.colorScheme.onBackground),
     isError: Boolean = false,
+    supportingText: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     singleLine: Boolean = true,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
@@ -85,6 +86,7 @@ fun PasswordFieldOutlined(
         enabled = enabled,
         readOnly = readOnly,
         textStyle = textStyle,
+        supportingText = supportingText,
         isError = isError,
         leadingIcon = leadingIcon,
         trailingIcon = {

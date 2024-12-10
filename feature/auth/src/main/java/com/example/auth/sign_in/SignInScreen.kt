@@ -12,6 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -22,10 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.navigation.AuthGraph
-import com.example.navigation.HomeGraph
 import com.example.navigation.LocalNavController
 import com.example.resourse.R
 import com.example.resourse.body1_Reg16
+import com.example.utils.event.EmailController
+import com.example.utils.event.ObserveAsEvent
 import com.example.utils.presentation.compose.ApplyButton
 import com.example.utils.presentation.compose.LottieSimpleAnimation
 import com.example.utils.presentation.compose.PasswordFieldOutlined
@@ -51,6 +54,10 @@ private fun SignInContent(
     val navController = LocalNavController.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
+
+    ObserveAsEvent(EmailController.event) {
+        event(SignInEvent.ChangeEmail(it))
+    }
 
     Scaffold(
         modifier = Modifier
@@ -98,7 +105,7 @@ private fun SignInContent(
 
                 TextButton(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    onClick = { navController.navigate(AuthGraph.SignUpRoute) }
+                    onClick = { navController.navigate(AuthGraph.SignUpRoute(uiState.email)) }
                 ) {
                     Text(
                         text = stringResource(R.string.not_account),
@@ -114,11 +121,11 @@ private fun SignInContent(
                     .align(Alignment.BottomCenter),
                 text = stringResource(R.string.sign_in),
                 onClick = {
-                    navController.navigate(HomeGraph.HomeRoute) {
-                        popUpTo(AuthGraph.SignInRoute) {
-                            inclusive = true
-                        }
-                    }
+//                    navController.navigate(HomeGraph.HomeRoute) {
+//                        popUpTo(AuthGraph.SignInRoute) {
+//                            inclusive = true
+//                        }
+//                    }
                 }
             )
         }
