@@ -1,4 +1,4 @@
-package com.example.auth.sign_up
+package com.example.auth.presentation.sign_up
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -24,13 +24,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.navigation.AuthGraph
+import com.example.navigation.HomeGraph
 import com.example.navigation.LocalNavController
+import com.example.resourse.AccentColor
 import com.example.resourse.R
 import com.example.resourse.body1_Reg16
+import com.example.utils.event.LaunchNextScreenController
+import com.example.utils.event.ObserveAsEvent
 import com.example.utils.presentation.compose.ApplyButton
+import com.example.utils.presentation.compose.DotsLoadingIndicator
 import com.example.utils.presentation.compose.PasswordFieldOutlined
 import com.example.utils.presentation.compose.TextFieldOutlined
 import com.example.utils.presentation.noRippleClickable
@@ -54,8 +62,29 @@ private fun SignUpContent(
     event: (SignUpEvent) -> Unit
 ) {
     val navController = LocalNavController.current
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
+
+    ObserveAsEvent(LaunchNextScreenController.event) {
+        navController.navigate(HomeGraph.HomeRoute) {
+            popUpTo(currentBackStackEntry?.destination?.route!!) {
+                inclusive = true
+            }
+        }
+    }
+
+    if (uiState.loading) {
+        Dialog(
+            onDismissRequest = {},
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false
+            )
+        ) {
+            DotsLoadingIndicator(dotsColor = AccentColor)
+        }
+    }
 
     Scaffold(
         modifier = Modifier
@@ -140,13 +169,8 @@ private fun SignUpContent(
                 ApplyButton(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.sign_up),
-                    onClick = {
-//                        navController.navigate(HomeGraph.HomeRoute) {
-//                            popUpTo(AuthGraph.SignInRoute) {
-//                                inclusive = true
-//                            }
-//                        }
-                    }
+                    enabled = uiState.enabledSignUpButton,
+                    onClick = { event(SignUpEvent.OnSignUpClicked) }
                 )
             }
         }

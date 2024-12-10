@@ -5,6 +5,7 @@ import com.example.common.AndroidLogger
 import com.example.common.AndroidResources
 import com.example.common.Core
 import com.example.utils.event.ExitController
+import com.example.utils.event.LaunchNextScreenController
 import com.example.utils.event.SnackbarAction
 import com.example.utils.event.SnackbarController
 import com.example.utils.event.SnackbarEvent
@@ -34,6 +35,12 @@ open class BaseViewModel : ViewModel() {
     protected fun goBack() {
         viewModelScope.launch {
             ExitController.sendEvent()
+        }
+    }
+
+    protected fun launchNextScreen() {
+        viewModelScope.launch {
+            LaunchNextScreenController.sendEvent()
         }
     }
 

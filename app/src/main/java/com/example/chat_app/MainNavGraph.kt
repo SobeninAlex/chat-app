@@ -6,9 +6,15 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,20 +22,57 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.auth.sign_in.SignInScreen
-import com.example.auth.sign_up.SignUpScreen
+import com.example.auth.presentation.sign_in.SignInScreen
+import com.example.auth.presentation.sign_up.SignUpScreen
+import com.example.home.presentation.HomeScreen
 import com.example.navigation.AuthGraph
 import com.example.navigation.HomeGraph
 import com.example.navigation.LocalNavController
+import com.example.utils.event.ObserveAsEvent
+import com.example.utils.event.SnackbarController
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainNavGraph() {
+fun MainNavGraph(
+    firebaseAuth: FirebaseAuth
+) {
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    ObserveAsEvent(
+        flow = SnackbarController.event,
+        key1 = snackbarHostState
+    ) { event ->
+        coroutineScope.launch {
+            snackbarHostState.currentSnackbarData?.dismiss()
+            val result = snackbarHostState.showSnackbar(
+                message = event.message,
+                actionLabel = event.snackbarAction?.buttonName,
+                duration = SnackbarDuration.Short,
+                withDismissAction = true
+            )
+
+            if (result == SnackbarResult.ActionPerformed) {
+                event.snackbarAction?.action?.invoke()
+            }
+        }
+    }
+
+    val currentUser = firebaseAuth.currentUser
+    val startDestination = if (currentUser == null) AuthGraph else HomeGraph
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState
+            )
+        },
         containerColor = MaterialTheme.colorScheme.background
     ) {
         CompositionLocalProvider(
@@ -37,7 +80,7 @@ fun MainNavGraph() {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = AuthGraph,
+                startDestination = startDestination,
                 exitTransition = {
                     slideOutOfContainer(
                         AnimatedContentTransitionScope.SlideDirection.Left,
@@ -80,7 +123,7 @@ fun MainNavGraph() {
                     startDestination = HomeGraph.HomeRoute
                 ) {
                     composable<HomeGraph.HomeRoute> {
-
+                        HomeScreen()
                     }
 
                     composable<HomeGraph.ChatRoute> {

@@ -1,4 +1,4 @@
-package com.example.auth.sign_up
+package com.example.auth.presentation.sign_up
 
 sealed interface SignUpEvent {
 
@@ -9,5 +9,7 @@ sealed interface SignUpEvent {
     data class ChangePassword(val password: String) : SignUpEvent
 
     data class ChangeConfirmPassword(val password: String) : SignUpEvent
+
+    data object OnSignUpClicked: SignUpEvent
 
 }
