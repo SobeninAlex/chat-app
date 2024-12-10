@@ -1,6 +1,7 @@
 package com.example.auth.presentation.sign_up
 
 import com.example.auth.FeatureAuthRepository
+import com.example.auth.FeatureAuthRepository
 import com.example.utils.presentation.BaseViewModel
 import com.google.firebase.auth.UserProfileChangeRequest
 import dagger.assisted.Assisted
@@ -60,6 +61,33 @@ class SignUpViewModel @AssistedInject constructor(
 
         is SignUpEvent.OnSignUpClicked -> {
             signUp()
+        }
+    }
+
+    private fun signUp() {
+        val state = uiState.value
+        _uiState.update { it.copy(loading = true) }
+        repository.signUp(
+            email = state.email,
+            password = state.password
+        ).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                task.result.user?.let {
+                    it.updateProfile(
+                        UserProfileChangeRequest.Builder()
+                            .setDisplayName(state.fullName)
+                            .build()
+                    ).addOnCompleteListener {
+                        launchNextScreen()
+                    }
+                    return@addOnCompleteListener
+                }
+                _uiState.update { it.copy(loading = false) }
+                showSnackbar(message = task.exception?.message.toString())
+            } else {
+                _uiState.update { it.copy(loading = false) }
+                showSnackbar(message = task.exception?.message.toString())
+            }
         }
     }
 
