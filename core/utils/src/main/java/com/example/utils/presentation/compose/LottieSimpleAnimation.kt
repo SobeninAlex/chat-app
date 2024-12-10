@@ -12,12 +12,16 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 fun LottieSimpleAnimation(
     modifier: Modifier = Modifier,
     animation: Int,
+    speed: Float = 2f,
+    play: Boolean = true,
     repeat: Boolean = false
 ) {
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(animation))
     LottieAnimation(
         composition = composition,
         modifier = modifier,
+        speed = speed,
+        isPlaying = play,
         iterations = if (repeat) LottieConstants.IterateForever else 1
     )
 }

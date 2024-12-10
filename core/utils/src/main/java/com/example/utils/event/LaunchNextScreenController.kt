@@ -3,11 +3,11 @@ package com.example.utils.event
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
-object EmailController {
-    private val _event = Channel<String>()
+object LaunchNextScreenController {
+    private val _event = Channel<Unit>()
     val event = _event.receiveAsFlow()
 
-    suspend fun sendEvent(email: String) {
-        _event.send(email)
+    suspend fun sendEvent() {
+        _event.send(Unit)
     }
 }

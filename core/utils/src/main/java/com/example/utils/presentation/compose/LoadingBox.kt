@@ -64,7 +64,7 @@ fun LoadingBox(
     }
 
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         if (showLoading) {
             loadingIndicator()
@@ -74,7 +74,9 @@ fun LoadingBox(
             enter = fadeIn(tween(500)),
             exit = fadeOut(tween(500))
         ) {
-            Box {
+            Box(
+                modifier = modifier
+            ) {
                 content()
             }
         }

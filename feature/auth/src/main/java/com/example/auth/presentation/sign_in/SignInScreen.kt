@@ -1,4 +1,4 @@
-package com.example.auth.sign_in
+package com.example.auth.presentation.sign_in
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,8 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -21,15 +19,21 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.navigation.AuthGraph
+import com.example.navigation.HomeGraph
 import com.example.navigation.LocalNavController
+import com.example.resourse.AccentColor
 import com.example.resourse.R
 import com.example.resourse.body1_Reg16
-import com.example.utils.event.EmailController
+import com.example.utils.event.LaunchNextScreenController
 import com.example.utils.event.ObserveAsEvent
 import com.example.utils.presentation.compose.ApplyButton
+import com.example.utils.presentation.compose.DotsLoadingIndicator
 import com.example.utils.presentation.compose.LottieSimpleAnimation
 import com.example.utils.presentation.compose.PasswordFieldOutlined
 import com.example.utils.presentation.compose.TextFieldOutlined
@@ -52,16 +56,32 @@ private fun SignInContent(
     event: (SignInEvent) -> Unit
 ) {
     val navController = LocalNavController.current
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
-    ObserveAsEvent(EmailController.event) {
-        event(SignInEvent.ChangeEmail(it))
+    ObserveAsEvent(LaunchNextScreenController.event) {
+        navController.navigate(HomeGraph.HomeRoute) {
+            popUpTo(currentBackStackEntry?.destination?.route!!) {
+                inclusive = true
+            }
+        }
+    }
+
+    if (uiState.loading) {
+        Dialog(
+            onDismissRequest = {},
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false
+            )
+        ) {
+            DotsLoadingIndicator(dotsColor = AccentColor)
+        }
     }
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -70,7 +90,7 @@ private fun SignInContent(
                 .noRippleClickable {
                     keyboardController?.hide()
                     focusManager.clearFocus()
-                },
+                }
         ) {
             LottieSimpleAnimation(
                 modifier = Modifier
@@ -105,7 +125,7 @@ private fun SignInContent(
 
                 TextButton(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    onClick = { navController.navigate(AuthGraph.SignUpRoute(uiState.email)) }
+                    onClick = { navController.navigate(AuthGraph.SignUpRoute(uiState.email)) },
                 ) {
                     Text(
                         text = stringResource(R.string.not_account),
@@ -120,13 +140,8 @@ private fun SignInContent(
                     .padding(all = 16.dp)
                     .align(Alignment.BottomCenter),
                 text = stringResource(R.string.sign_in),
-                onClick = {
-//                    navController.navigate(HomeGraph.HomeRoute) {
-//                        popUpTo(AuthGraph.SignInRoute) {
-//                            inclusive = true
-//                        }
-//                    }
-                }
+                enabled = uiState.enabledSignInButton,
+                onClick = { event(SignInEvent.OnSignInClicked) }
             )
         }
     }
