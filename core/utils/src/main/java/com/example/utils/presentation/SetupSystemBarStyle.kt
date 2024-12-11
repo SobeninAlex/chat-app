@@ -31,9 +31,9 @@ import com.example.resourse.BlackColor
 fun Context.setupSystemBarStyle(
     statusBarColor: Color,
     navigationBarColor: Color,
-    isLightIconsStatusBar: Boolean,
+    isLightIcons: Boolean,
 ) = with(this as ComponentActivity) {
-    val statusBarStyle = if (!isLightIconsStatusBar) {
+    val statusBarStyle = if (isLightIcons) {
         SystemBarStyle.dark(statusBarColor.toArgb())
     } else {
         SystemBarStyle.light(statusBarColor.toArgb(), BlackColor.toArgb())

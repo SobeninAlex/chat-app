@@ -61,27 +61,7 @@ private fun SignInContent(
     val focusManager = LocalFocusManager.current
 
     ObserveAsEvent(LaunchNextScreenController.event) {
-        navController.navigate(HomeGraph.HomeRoute) {
-            popUpTo(currentBackStackEntry?.destination?.route!!) {
-                inclusive = true
-            }
-        }
-    }
-
-    if (uiState.loading) {
-        Dialog(
-            onDismissRequest = {},
-            properties = DialogProperties(
-                dismissOnBackPress = false,
-                dismissOnClickOutside = false
-            )
-        ) {
-            DotsLoadingIndicator(dotsColor = AccentColor)
-        }
-    }
-
-    ObserveAsEvent(LaunchNextScreenController.event) {
-        navController.navigate(HomeGraph.HomeRoute) {
+        navController.navigate(HomeGraph) {
             popUpTo(currentBackStackEntry?.destination?.route!!) {
                 inclusive = true
             }

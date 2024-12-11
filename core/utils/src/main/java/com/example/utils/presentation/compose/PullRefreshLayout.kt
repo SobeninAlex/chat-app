@@ -30,7 +30,7 @@ fun PullRefreshLayout(
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
     animationMillis: Long = 0,
-    refreshContent: @Composable BoxScope.() -> Unit,
+    refreshContent: @Composable BoxScope.() -> Unit = {},
     content: @Composable BoxScope.() -> Unit
 ) {
     var animationStarted by remember { mutableStateOf(false) }

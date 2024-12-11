@@ -3,6 +3,8 @@ package com.example.resourse
 import androidx.compose.ui.graphics.Color
 
 val MainColor = Color(0xFF1276E2)
+val MainColor10 = Color(0xFF1276E2).copy(alpha = 0.1f)
+val MainColor20 = Color(0xFF1276E2).copy(alpha = 0.2f)
 val AccentColor = Color(0xFFFBB400)
 
 val BackgroundColorLight = Color(0xFFF5F5F5)

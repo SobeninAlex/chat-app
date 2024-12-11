@@ -53,6 +53,7 @@ dependencies {
     implementation(project(":navigation"))
     implementation(project(":feature:home"))
     implementation(project(":feature:auth"))
+    implementation(project(":feature:chat"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

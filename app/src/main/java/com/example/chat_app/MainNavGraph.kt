@@ -24,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.auth.presentation.sign_in.SignInScreen
 import com.example.auth.presentation.sign_up.SignUpScreen
+import com.example.chat.presentation.ChatScreen
 import com.example.home.presentation.HomeScreen
 import com.example.navigation.AuthGraph
 import com.example.navigation.HomeGraph
@@ -127,7 +128,8 @@ fun MainNavGraph(
                     }
 
                     composable<HomeGraph.ChatRoute> {
-
+                        val args = it.toRoute<HomeGraph.ChatRoute>()
+                        ChatScreen(channelId = args.channelId)
                     }
                 }
             }
