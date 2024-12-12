@@ -11,10 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalFocusManager
@@ -47,14 +43,12 @@ fun TextFieldOutlined(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-    var text by remember { mutableStateOf(value) }
 
     OutlinedTextField(
         modifier = modifier,
-        value = text,
+        value = value,
         onValueChange = {
-            text = it
-            onValueChange(text)
+            onValueChange(it)
         },
         placeholder = {
             placeholder?.let {
@@ -84,8 +78,7 @@ fun TextFieldOutlined(
                     modifier = Modifier
                         .clip(CircleShape)
                         .clickable {
-                            text = ""
-                            onValueChange(text)
+                            onValueChange("")
                         }
                 )
             }

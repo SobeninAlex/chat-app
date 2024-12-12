@@ -1,4 +1,7 @@
 package com.example.chat.presentation
 
-interface ChatEvent {
+sealed interface ChatEvent {
+
+    data class SendMessage(val msg: String) : ChatEvent
+
 }

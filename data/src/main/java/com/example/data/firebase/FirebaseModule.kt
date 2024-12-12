@@ -1,9 +1,7 @@
 package com.example.data.firebase
 
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.database
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +21,7 @@ class FirebaseModule {
     @Provides
     @Singleton
     fun provideFirebaseDatabase(): FirebaseDatabase {
-        return Firebase.database
+        return FirebaseDatabase.getInstance()
     }
 
 }

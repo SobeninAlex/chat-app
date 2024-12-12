@@ -10,6 +10,17 @@ val roundedCornerShape12 = RoundedCornerShape(12.dp)
 val roundedCornerShape16 = RoundedCornerShape(16.dp)
 val roundedCornerShape20 = RoundedCornerShape(20.dp)
 
+val currentUserBubbleShape = RoundedCornerShape(
+    topStart = 12.dp,
+    topEnd = 12.dp,
+    bottomEnd = 12.dp
+)
+val anotherUserBubbleShape = RoundedCornerShape(
+    topStart = 12.dp,
+    topEnd = 12.dp,
+    bottomStart = 12.dp
+)
+
 val Shapes = Shapes(
     extraSmall = roundedCornerShape4,
     small = roundedCornerShape8,
