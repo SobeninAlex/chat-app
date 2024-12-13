@@ -1,12 +1,16 @@
 package com.example.utils.presentation.compose
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -21,7 +25,7 @@ import com.example.resourse.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SimpleTopBar(
+fun LargeTopBar(
     modifier: Modifier = Modifier,
     title: String,
     goBack: (() -> Unit)? = null,
@@ -31,14 +35,18 @@ fun SimpleTopBar(
     titleContentColor: Color = MaterialTheme.colorScheme.onBackground,
     actionIconContentColor: Color = MainColor,
     actions: (@Composable () -> Unit)? = null,
+    scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
-    TopAppBar(
+    LargeTopAppBar(
         title = {
-            Text(
-                text = title,
-                style = t2_Bold18,
-            )
+            Column {
+                Text(
+                    text = title,
+                    style = t2_Bold18,
+                )
+            }
         },
+        modifier = modifier.shadow(elevation = elevation),
         navigationIcon = {
             goBack?.let { back ->
                 NavigationTopBarIcon(onClick = back)
@@ -47,18 +55,13 @@ fun SimpleTopBar(
         actions = {
             actions?.invoke()
         },
-        colors = TopAppBarDefaults.topAppBarColors(
+        colors = TopAppBarDefaults.largeTopAppBarColors(
             containerColor = containerColor,
+            scrolledContainerColor = containerColor,
             navigationIconContentColor = navigationIconContentColor,
             titleContentColor = titleContentColor,
             actionIconContentColor = actionIconContentColor
         ),
-        modifier = modifier.shadow(elevation = elevation)
+        scrollBehavior = scrollBehavior,
     )
-}
-
-@Preview
-@Composable
-private fun SimpleTopBarPreview() {
-    SimpleTopBar(title = "Title")
 }

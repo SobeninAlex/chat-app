@@ -29,7 +29,6 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.navigation.AuthGraph
 import com.example.navigation.HomeGraph
 import com.example.navigation.LocalNavController
 import com.example.resourse.AccentColor
@@ -40,7 +39,7 @@ import com.example.utils.event.ObserveAsEvent
 import com.example.utils.presentation.compose.ApplyButton
 import com.example.utils.presentation.compose.DotsLoadingIndicator
 import com.example.utils.presentation.compose.PasswordFieldOutlined
-import com.example.utils.presentation.compose.TextFieldOutlined
+import com.example.utils.presentation.compose.SimpleTextFieldOutlined
 import com.example.utils.presentation.noRippleClickable
 
 @Composable
@@ -112,7 +111,7 @@ private fun SignUpContent(
 
                 Spacer(modifier = Modifier.height(48.dp))
 
-                TextFieldOutlined(
+                SimpleTextFieldOutlined(
                     modifier = Modifier.fillMaxWidth(),
                     value = uiState.fullName,
                     onValueChange = { event(SignUpEvent.ChangeFullName(it)) },
@@ -123,7 +122,7 @@ private fun SignUpContent(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                TextFieldOutlined(
+                SimpleTextFieldOutlined(
                     modifier = Modifier.fillMaxWidth(),
                     value = uiState.email,
                     onValueChange = { event(SignUpEvent.ChangeEmail(it)) },

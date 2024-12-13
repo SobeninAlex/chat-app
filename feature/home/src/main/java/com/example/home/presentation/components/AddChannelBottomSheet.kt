@@ -26,7 +26,7 @@ import com.example.resourse.MainColor20
 import com.example.resourse.t3_Bold16
 import com.example.utils.presentation.compose.ActionIconButton
 import com.example.utils.presentation.compose.SimpleBottomSheet
-import com.example.utils.presentation.compose.TextFieldOutlined
+import com.example.utils.presentation.compose.SimpleTextFieldOutlined
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +55,7 @@ fun AddChannelBottomSheet(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                TextFieldOutlined(
+                SimpleTextFieldOutlined(
                     modifier = Modifier.fillMaxWidth().weight(1f),
                     value = channelName,
                     singleLine = true,

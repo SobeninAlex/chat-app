@@ -1,6 +1,7 @@
 package com.example.utils.presentation.compose
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -9,20 +10,24 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.example.resourse.GrayColor
 import com.example.resourse.body2_Reg14
 
 @Composable
-fun TextFieldOutlined(
+fun SimpleTextFieldOutlined(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
@@ -39,7 +44,9 @@ fun TextFieldOutlined(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
         imeAction = ImeAction.Done
-    )
+    ),
+    shape: Shape = OutlinedTextFieldDefaults.shape,
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -77,9 +84,7 @@ fun TextFieldOutlined(
                     contentDescription = null,
                     modifier = Modifier
                         .clip(CircleShape)
-                        .clickable {
-                            onValueChange("")
-                        }
+                        .clickable { onValueChange("") }
                 )
             }
         },
@@ -94,6 +99,8 @@ fun TextFieldOutlined(
                 focusManager.clearFocus()
             }
         ),
+        colors = colors,
+        shape = shape,
     )
 
 }

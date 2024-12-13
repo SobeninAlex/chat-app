@@ -36,7 +36,7 @@ import com.example.utils.presentation.compose.ApplyButton
 import com.example.utils.presentation.compose.DotsLoadingIndicator
 import com.example.utils.presentation.compose.LottieSimpleAnimation
 import com.example.utils.presentation.compose.PasswordFieldOutlined
-import com.example.utils.presentation.compose.TextFieldOutlined
+import com.example.utils.presentation.compose.SimpleTextFieldOutlined
 import com.example.utils.presentation.noRippleClickable
 
 @Composable
@@ -106,7 +106,7 @@ private fun SignInContent(
                     .padding(horizontal = 16.dp)
                     .align(Alignment.Center)
             ) {
-                TextFieldOutlined(
+                SimpleTextFieldOutlined(
                     modifier = Modifier.fillMaxWidth(),
                     value = uiState.email,
                     onValueChange = { event(SignInEvent.ChangeEmail(it)) },

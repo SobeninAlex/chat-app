@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -77,34 +78,35 @@ fun Modifier.shimmerEffect(
         )
     )
 
+    //todo: горизонтальный градиент
+//    background(
+//        brush = Brush.horizontalGradient(
+//            colors = listOf(
+//                first,
+//                second,
+//                second,
+//                first
+//            ),
+//            startX = startOffsetX,
+//            endX = startOffsetX + size.width.toFloat()
+//        )
+//    ).onGloballyPositioned {
+//        size = it.size
+//    }
+
+    //todo: диагональный градиент
     background(
-        brush = Brush.horizontalGradient(
+        brush = Brush.linearGradient(
             colors = listOf(
                 first,
                 second,
                 second,
                 first
             ),
-            startX = startOffsetX,
-            endX = startOffsetX + size.width.toFloat()
+            start = Offset(startOffsetX, 0f),
+            end = Offset(startOffsetX + size.width.toFloat(), size.width.toFloat() / 3)
         )
-    )
-        .onGloballyPositioned {
-            size = it.size
-        }
-
-    //todo: оставил нга случай если нужен будет диагональный градиент
-//    background(
-//        brush = Brush.linearGradient(
-//            colors = listOf(
-//                WhiteColor,
-//                GrayColor20,
-//                WhiteColor
-//            ),
-//            start = Offset(startOffsetX, 0f),
-//            end = Offset(startOffsetX + size.width.toFloat(), size.width.toFloat() / 3)
-//        )
-//    ).onGloballyPositioned {
-//        size = it.size
-//    }
+    ).onGloballyPositioned {
+        size = it.size
+    }
 }

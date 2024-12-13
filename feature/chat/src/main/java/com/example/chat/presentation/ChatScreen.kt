@@ -2,7 +2,6 @@ package com.example.chat.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,9 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -34,15 +31,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.chat.presentation.components.ChatBubble
+import com.example.chat.presentation.components.SenderMessagesBox
 import com.example.navigation.LocalNavController
-import com.example.resourse.GreenColor
 import com.example.resourse.MainColor
-import com.example.resourse.MainColor20
 import com.example.resourse.WhiteColor
 import com.example.utils.presentation.compose.ActionIconButton
 import com.example.utils.presentation.compose.LoadingBox
 import com.example.utils.presentation.compose.SimpleTopBar
-import com.example.utils.presentation.compose.TextFieldOutlined
+import com.example.utils.presentation.compose.SimpleTextFieldOutlined
 import com.example.utils.presentation.noRippleClickable
 import com.example.utils.presentation.setupSystemBarStyleDefault
 
@@ -114,55 +110,10 @@ private fun ChatContent(
                     }
                 }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.primaryContainer)
-                        .padding(horizontal = 12.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    var msg by remember { mutableStateOf("") }
-
-                    TextFieldOutlined(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
-                        value = msg,
-                        maxLines = 4,
-                        placeholder = "your message",
-                        onValueChange = { msg = it }
-                    )
-
-                    Spacer(modifier = Modifier.width(8.dp))
-
-                    ActionIconButton(
-                        modifier = Modifier.padding(top = 6.dp),
-                        icon = Icons.Outlined.Send,
-                        tint = WhiteColor,
-                        enabled = msg.isNotBlank(),
-                        containerColor = MainColor,
-                        onClick = {
-                            event(ChatEvent.SendMessage(msg))
-                            msg = ""
-                            keyboardController?.hide()
-                            focusManager.clearFocus()
-                        }
-                    )
-                }
+                SenderMessagesBox(
+                    onSendMessage = { event(ChatEvent.SendMessage(it)) }
+                )
             }
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
