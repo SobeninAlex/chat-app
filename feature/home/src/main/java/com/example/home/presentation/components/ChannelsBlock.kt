@@ -21,7 +21,7 @@ fun LazyListScope.channelsBlock(
     key = { it.id }
 ) { channel ->
     ChannelItem(
-        modifier = Modifier.animateItem().padding(horizontal = 16.dp),
+        modifier = Modifier.animateItem(),
         channel = channel,
         onClick = { onChannelClick(channel) }
     )
