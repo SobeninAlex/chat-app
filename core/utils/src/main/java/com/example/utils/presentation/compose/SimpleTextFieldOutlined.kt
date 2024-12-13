@@ -1,7 +1,6 @@
 package com.example.utils.presentation.compose
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,7 +21,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
 import com.example.resourse.GrayColor
 import com.example.resourse.body2_Reg14
 
@@ -38,6 +36,17 @@ fun SimpleTextFieldOutlined(
     textStyle: TextStyle = body2_Reg14.copy(color = MaterialTheme.colorScheme.onBackground),
     isError: Boolean = false,
     leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit) = {
+        if (value.isNotEmpty()) {
+            Icon(
+                imageVector = Icons.Outlined.Close,
+                contentDescription = null,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .clickable { onValueChange("") }
+            )
+        }
+    },
     singleLine: Boolean = false,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     minLines: Int = 1,
@@ -77,17 +86,7 @@ fun SimpleTextFieldOutlined(
         textStyle = textStyle,
         isError = isError,
         leadingIcon = leadingIcon,
-        trailingIcon = {
-            if (value.isNotEmpty()) {
-                Icon(
-                    imageVector = Icons.Outlined.Close,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .clickable { onValueChange("") }
-                )
-            }
-        },
+        trailingIcon = trailingIcon,
         visualTransformation = visualTransformation,
         singleLine = singleLine,
         maxLines = maxLines,
