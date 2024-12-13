@@ -117,7 +117,7 @@ private fun HomeContent(
         ) {
             SearchBlockContent(
                 height = height,
-                onValueChange = { /*todo*/ },
+                onValueChange = { event(HomeEvent.SearchChannel(querySearch = it)) },
                 modifier = Modifier.offset { IntOffset(0, connection.appBarOffset) }
             )
 
@@ -150,17 +150,6 @@ private fun HomeContent(
                                     navController.navigate(HomeGraph.ChatRoute(channel.id))
                                 }
                             )
-
-                            //todo: for test
-                            items(count = 40) {
-                                Text(
-                                    text = "skfjsjdf",
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.primaryContainer)
-                                        .padding(16.dp)
-                                )
-                            }
                         }
                     }
                 }

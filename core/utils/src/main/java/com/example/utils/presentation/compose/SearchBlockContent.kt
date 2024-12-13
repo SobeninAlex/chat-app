@@ -45,7 +45,6 @@ fun SearchBlockContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 private fun SearchBlockContentPreview() {

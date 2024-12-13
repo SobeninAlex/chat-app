@@ -4,9 +4,11 @@ import com.example.domain.Channel
 import com.example.home.FeatureHomeRepository
 import com.example.utils.presentation.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +28,18 @@ class HomeViewModel @Inject constructor(
         is HomeEvent.OpenBottomSheet -> { openBottomSheet(type = event.type) }
         is HomeEvent.CloseBottomSheet -> { closeBottomSheet() }
         is HomeEvent.AddNewChannel -> { addChannel(name = event.nameNewChannel) }
+        is HomeEvent.SearchChannel -> { searchChannel(querySearch = event.querySearch) }
+    }
+
+    private fun searchChannel(querySearch: String) {
+        querySearch.ifBlank {
+            loadContent()
+            return
+        }
+        val channels = uiState.value.channels.filter {
+            it.name.startsWith(querySearch, ignoreCase = true)
+        }
+        _uiState.update { it.copy(channels = channels) }
     }
 
     private fun addChannel(name: String) {

@@ -10,4 +10,6 @@ sealed interface HomeEvent {
 
     data class AddNewChannel(val nameNewChannel: String) : HomeEvent
 
+    data class SearchChannel(val querySearch: String) : HomeEvent
+
 }
