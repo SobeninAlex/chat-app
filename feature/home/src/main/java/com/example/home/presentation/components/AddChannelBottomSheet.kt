@@ -69,6 +69,7 @@ fun AddChannelBottomSheet(
                     modifier = Modifier.padding(top = 6.dp),
                     icon = Icons.Outlined.Check,
                     tint = GreenColor,
+                    enabled = channelName.isNotBlank(),
                     containerColor = MainColor20,
                     onClick = {
                         onAddChannel(channelName)

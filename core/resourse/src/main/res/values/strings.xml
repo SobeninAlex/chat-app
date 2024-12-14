@@ -16,4 +16,8 @@
     <string name="placeholder_full_name">enter your full name</string>
     <string name="placeholder_password">enter your password</string>
     <string name="search_channel">search channel</string>
+    <string name="take_photo">Сделать фото</string>
+    <string name="take_video">Сделать видео</string>
+    <string name="pick_image">Загрузить из галереи</string>
+    <string name="local_storage">Внутреннее хранилище</string>
 </resources>
