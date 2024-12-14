@@ -121,7 +121,8 @@ private fun ChatContent(
 
                 SenderMessagesBox(
                     onSendMessage = { event(ChatEvent.SendMessage(it)) },
-                    onClickAttach = { showBottomSheet = true }
+                    onClickAttach = { showBottomSheet = true },
+                    sendAttachmentProcess = uiState.sendAttachmentProcess
                 )
             }
         }
@@ -129,9 +130,9 @@ private fun ChatContent(
 
     if (showBottomSheet) {
         AttachmentPickerBottomSheet(
-            onPick = { attahcments ->
-                Log.d("TAG_TAG", attahcments.toString())
-                //todo: send attachments to message
+            onPick = { attachments ->
+                Log.d("TAG_TAG", attachments.toString())
+                event(ChatEvent.SendAttachments(attachments))
             },
             onDismissRequest = { showBottomSheet = false }
         )

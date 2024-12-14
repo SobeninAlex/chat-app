@@ -2,7 +2,6 @@ package com.example.chat.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,14 +19,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.domain.Message
 import com.example.resourse.GrayColor
 import com.example.resourse.MainColor
+import com.example.resourse.R
 import com.example.resourse.WhiteColor
 import com.example.resourse.anotherUserBubbleShape
 import com.example.resourse.body2_Reg14
 import com.example.resourse.currentUserBubbleShape
+import com.example.resourse.roundedCornerShape12
 
 private var counter = 0
 
@@ -71,12 +75,55 @@ fun ChatBubble(
                     .background(bubbleColor)
                     .padding(8.dp)
             ) {
-                Text(
-                    text = message.message,
-                    color = textColor,
-                    style = body2_Reg14
-                )
+                message.message?.let {
+                    Text(
+                        text = it,
+                        color = textColor,
+                        style = body2_Reg14
+                    )
+                }
+
+                message.attachmentUrl?.let {
+                    AttachmentItem(it)
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun AttachmentItem(url: String) {
+    if (url.contains("/images")) {
+        AsyncImage(
+            model = url,
+            placeholder = painterResource(R.drawable.preview_image),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(200.dp)
+                .clip(roundedCornerShape12)
+        )
+    }
+
+    if (url.contains("/videos")) {
+        Image(
+            painter = painterResource(R.drawable.preview_video),
+            contentScale = ContentScale.Crop,
+            contentDescription = null,
+            modifier = Modifier
+                .size(100.dp)
+                .clip(roundedCornerShape12)
+        )
+    }
+
+    if (url.contains("/files")) {
+        Image(
+            painter = painterResource(R.drawable.ic_file_square),
+            contentScale = ContentScale.Crop,
+            contentDescription = null,
+            modifier = Modifier
+                .size(100.dp)
+                .clip(roundedCornerShape12)
+        )
     }
 }

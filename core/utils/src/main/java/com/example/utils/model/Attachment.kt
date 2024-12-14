@@ -47,5 +47,16 @@ data class Attachment(
 enum class AttachType {
     IMAGE,
     VIDEO,
-    FILE
+    FILE;
+
+    companion object {
+        fun getType(str: String): AttachType {
+            return when (str) {
+                "application" -> FILE
+                "image" -> IMAGE
+                "video" -> VIDEO
+                else -> throw RuntimeException("unknown type attachment")
+            }
+        }
+    }
 }

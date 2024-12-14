@@ -7,6 +7,7 @@ import com.google.firebase.auth.auth
 data class ChatUiState(
     val loading: Boolean = false,
     val messages: List<Message> = emptyList(),
+    val sendAttachmentProcess: Boolean = false
 ) {
 
     val currentUserId: String

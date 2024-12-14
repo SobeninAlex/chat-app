@@ -84,7 +84,7 @@ fun LoadingBox(
 }
 
 @Composable
-fun BoxScope.CircularLoadingIndicator(
+fun Loader(
     modifier: Modifier = Modifier,
     visibility: Boolean,
     color: Color = AccentColor,

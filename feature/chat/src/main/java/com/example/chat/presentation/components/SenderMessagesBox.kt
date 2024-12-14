@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Send
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -27,12 +29,15 @@ import com.example.resourse.MainColor
 import com.example.resourse.R
 import com.example.resourse.WhiteColor
 import com.example.utils.presentation.compose.ActionIconButton
+import com.example.utils.presentation.compose.DotsLoadingIndicator
+import com.example.utils.presentation.compose.Loader
 import com.example.utils.presentation.compose.SimpleTextFieldOutlined
 
 @Composable
 fun SenderMessagesBox(
     onSendMessage: (String) -> Unit,
     onClickAttach: () -> Unit,
+    sendAttachmentProcess: Boolean,
 ) {
     Row(
         modifier = Modifier
@@ -61,14 +66,21 @@ fun SenderMessagesBox(
                             .clickable { msg = "" }
                     )
                 } else {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_attach),
-                        contentDescription = null,
-                        tint = MainColor,
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .clickable { onClickAttach() }
-                    )
+                    if (sendAttachmentProcess) {
+                        Loader(
+                            modifier = Modifier.size(24.dp),
+                            visibility = true
+                        )
+                    } else {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_attach),
+                            contentDescription = null,
+                            tint = MainColor,
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .clickable { onClickAttach() }
+                        )
+                    }
                 }
             },
         )

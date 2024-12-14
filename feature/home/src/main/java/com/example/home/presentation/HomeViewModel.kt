@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
             return
         }
         val channels = uiState.value.channels.filter {
-            it.name.startsWith(querySearch, ignoreCase = true)
+            it.name.contains(querySearch, ignoreCase = true)
         }
         _uiState.update { it.copy(channels = channels) }
     }
