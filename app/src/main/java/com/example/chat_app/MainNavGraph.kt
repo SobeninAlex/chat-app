@@ -129,7 +129,10 @@ fun MainNavGraph(
 
                     composable<HomeGraph.ChatRoute> {
                         val args = it.toRoute<HomeGraph.ChatRoute>()
-                        ChatScreen(channelId = args.channelId)
+                        ChatScreen(
+                            channelId = args.channelId,
+                            channelName = args.channelName
+                        )
                     }
                 }
             }

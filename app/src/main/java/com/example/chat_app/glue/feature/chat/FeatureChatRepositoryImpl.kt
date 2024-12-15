@@ -29,14 +29,14 @@ class FeatureChatRepositoryImpl @Inject constructor(
     override fun sendMessage(
         channelId: String,
         message: String?,
-        attachmentUrl: String?
+        attachment: Attachment?
     ): Task<Void> {
         val msg = Message(
             id = database.reference.push().key ?: UUID.randomUUID().toString(),
             senderId = auth.currentUser?.uid ?: "",
             message = message,
             senderName = auth.currentUser?.displayName ?: "",
-            attachmentUrl = attachmentUrl
+            attachment = attachment
         )
 
         return database.reference

@@ -4,18 +4,18 @@ import android.net.Uri
 import android.os.Parcelable
 import com.example.resourse.R
 import kotlinx.parcelize.Parcelize
+import java.util.UUID
 
-@Parcelize
 data class Attachment(
-    val id: Long = (0..10_000_000_000).random(),
-    val name: String,
+    val id: String = UUID.randomUUID().toString(),
+    val name: String = "",
+    val type: AttachType = AttachType.IMAGE,
     val uri: Uri? = null,
-    val type: AttachType,
     val isUploading: Boolean = false,
     val remoteUrl: String? = null,
     val thumbnail: String? = null,
     val durationVideo: String? = null,
-) : Parcelable {
+) {
 
     val icon: Int get() = when (type) {
         AttachType.IMAGE -> {
@@ -50,8 +50,8 @@ enum class AttachType {
     FILE;
 
     companion object {
-        fun getType(str: String): AttachType {
-            return when (str) {
+        fun getType(contentType: String): AttachType {
+            return when (contentType) {
                 "application" -> FILE
                 "image" -> IMAGE
                 "video" -> VIDEO

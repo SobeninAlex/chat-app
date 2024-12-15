@@ -23,7 +23,8 @@ data object HomeGraph {
 
     @Serializable
     data class ChatRoute(
-        val channelId: String
+        val channelId: String,
+        val channelName: String
     )
 
 }

@@ -1,6 +1,5 @@
 package com.example.chat.presentation
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastCbrt
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.chat.presentation.components.ChatBubble
@@ -39,14 +36,14 @@ import com.example.utils.presentation.setupSystemBarStyleDefault
 import kotlinx.coroutines.launch
 
 @Composable
-fun ChatScreen(channelId: String) {
+fun ChatScreen(channelId: String, channelName: String) {
     val context = LocalContext.current
     context.setupSystemBarStyleDefault(
         statusBarColor = Color.Transparent
     )
 
     val viewModel = hiltViewModel<ChatViewModel, ChatViewModel.Factory> { factory ->
-        factory.create(channelId)
+        factory.create(channelId = channelId, channelName = channelName)
     }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -70,7 +67,7 @@ private fun ChatContent(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             SimpleTopBar(
-                title = "",
+                title = uiState.channelName,
                 goBack = { navController.popBackStack() }
             )
         }
@@ -131,8 +128,9 @@ private fun ChatContent(
     if (showBottomSheet) {
         AttachmentPickerBottomSheet(
             onPick = { attachments ->
-                Log.d("TAG_TAG", attachments.toString())
-                event(ChatEvent.SendAttachments(attachments))
+                if (attachments.isNotEmpty()) {
+                    event(ChatEvent.SendAttachments(attachments))
+                }
             },
             onDismissRequest = { showBottomSheet = false }
         )

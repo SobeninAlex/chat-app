@@ -2,7 +2,6 @@ package com.example.chat.presentation
 
 import com.example.chat.FeatureChatRepository
 import com.example.domain.Message
-import com.example.utils.model.AttachType
 import com.example.utils.model.Attachment
 import com.example.utils.presentation.BaseViewModel
 import com.google.firebase.database.DataSnapshot
@@ -21,18 +20,23 @@ import kotlinx.coroutines.launch
 @HiltViewModel(assistedFactory = ChatViewModel.Factory::class)
 class ChatViewModel @AssistedInject constructor(
     private val repository: FeatureChatRepository,
-    @Assisted private val channelId: String,
+    @Assisted("channelId") private val channelId: String,
+    @Assisted("channelName") private val channelName: String,
 ) : BaseViewModel() {
 
     @AssistedFactory
     interface Factory {
-        fun create(channelId: String): ChatViewModel
+        fun create(
+            @Assisted("channelId") channelId: String,
+            @Assisted("channelName") channelName: String
+        ): ChatViewModel
     }
 
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
+        _uiState.update { it.copy(channelName = channelName) }
         loadContent()
     }
 
@@ -66,10 +70,15 @@ class ChatViewModel @AssistedInject constructor(
                     ?.addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             _uiState.update { it.copy(sendAttachmentProcess = false) }
-                            val downloadUri = task.result
+                            val downloadUri = task.result.toString()
                             repository.sendMessage(
                                 channelId = channelId,
-                                attachmentUrl = downloadUri.toString(),
+                                attachment = Attachment(
+                                    name = item.name,
+                                    type = item.type,
+                                    isUploading = true,
+                                    remoteUrl = downloadUri
+                                ),
                             ).addOnSuccessListener {
                                 getChatContent()
                             }

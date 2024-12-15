@@ -12,7 +12,7 @@ interface FeatureChatRepository {
     fun sendMessage(
         channelId: String,
         message: String? = null,
-        attachmentUrl: String? = null,
+        attachment: Attachment? = null,
     ): Task<Void>
 
     fun downloadAttachment(

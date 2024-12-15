@@ -146,7 +146,7 @@ private fun HomeContent(
                             channelsBlock(
                                 channels = uiState.channels,
                                 onChannelClick = { channel ->
-                                    navController.navigate(HomeGraph.ChatRoute(channel.id))
+                                    navController.navigate(HomeGraph.ChatRoute(channelId = channel.id, channelName = channel.name))
                                 }
                             )
                         }
