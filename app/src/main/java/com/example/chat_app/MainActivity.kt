@@ -1,23 +1,18 @@
 package com.example.chat_app
 
+import android.Manifest
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.FragmentActivity
 import com.example.resourse.ChatappTheme
 import com.google.firebase.auth.FirebaseAuth
+import com.permissionx.guolindev.PermissionX
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
 
     @Inject
     lateinit var firebaseAuth: FirebaseAuth
@@ -30,5 +25,16 @@ class MainActivity : ComponentActivity() {
                 MainNavGraph(firebaseAuth = firebaseAuth)
             }
         }
+        permissionHandling(this)
     }
+
+    private fun permissionHandling(activityContext: FragmentActivity) {
+        PermissionX.init(activityContext).permissions(Manifest.permission.SYSTEM_ALERT_WINDOW)
+            .onExplainRequestReason { scope, deniedList ->
+                val message =
+                    "We need your consent for the following permissions in order to use the offline call function properly"
+                scope.showRequestReasonDialog(deniedList, message, "Allow", "Deny")
+            }.request { allGranted, grantedList, deniedList -> }
+    }
+
 }

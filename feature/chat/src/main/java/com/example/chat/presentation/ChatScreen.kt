@@ -68,7 +68,7 @@ private fun ChatContent(
         topBar = {
             SimpleTopBar(
                 title = uiState.channelName,
-                goBack = { navController.popBackStack() }
+                goBack = { navController.popBackStack() },
             )
         }
     ) { paddingValues ->

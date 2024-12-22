@@ -9,6 +9,7 @@ import com.example.utils.event.LaunchNextScreenController
 import com.example.utils.event.SnackbarAction
 import com.example.utils.event.SnackbarController
 import com.example.utils.event.SnackbarEvent
+import com.example.utils.event.ToastController
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +30,14 @@ open class BaseViewModel : ViewModel() {
                     snackbarAction = action
                 )
             )
+        }
+    }
+
+    protected fun showToast(
+        message: String
+    ) {
+        viewModelScope.launch {
+            ToastController.sendEvent(message)
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.chat_app
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,10 +13,13 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Constraints
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -29,8 +33,11 @@ import com.example.home.presentation.HomeScreen
 import com.example.navigation.AuthGraph
 import com.example.navigation.HomeGraph
 import com.example.navigation.LocalNavController
+import com.example.utils.event.ExitController
 import com.example.utils.event.ObserveAsEvent
 import com.example.utils.event.SnackbarController
+import com.example.utils.event.ToastController
+import com.example.utils.helper.Constants
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -44,6 +51,7 @@ fun MainNavGraph(
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     ObserveAsEvent(
         flow = SnackbarController.event,
@@ -62,6 +70,18 @@ fun MainNavGraph(
                 event.snackbarAction?.action?.invoke()
             }
         }
+    }
+
+    ObserveAsEvent(
+        flow = ToastController.event
+    ) { message ->
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    ObserveAsEvent(
+        flow = ExitController.event
+    ) {
+        navController.popBackStack()
     }
 
     val currentUser = firebaseAuth.currentUser

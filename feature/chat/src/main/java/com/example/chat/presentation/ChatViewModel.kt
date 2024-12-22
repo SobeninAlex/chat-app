@@ -1,7 +1,9 @@
 package com.example.chat.presentation
 
+import android.widget.Toast
 import com.example.chat.FeatureChatRepository
 import com.example.domain.Message
+import com.example.utils.event.SnackbarAction
 import com.example.utils.model.Attachment
 import com.example.utils.presentation.BaseViewModel
 import com.google.firebase.database.DataSnapshot
@@ -52,14 +54,11 @@ class ChatViewModel @AssistedInject constructor(
 
     private fun loadContent() {
         _uiState.update { it.copy(loading = true) }
-        getChatContent()
+        getChatContent(channelId)
     }
 
     private fun sendMessage(message: String) {
         repository.sendMessage(channelId = channelId, message = message)
-            .addOnSuccessListener {
-                getChatContent()
-            }
     }
 
     private fun downloadAttachments(attachments: List<Attachment>) {
@@ -80,7 +79,7 @@ class ChatViewModel @AssistedInject constructor(
                                     remoteUrl = downloadUri
                                 ),
                             ).addOnSuccessListener {
-                                getChatContent()
+                                getChatContent(channelId)
                             }
                         } else {
                             _uiState.update { it.copy(sendAttachmentProcess = false) }
@@ -91,7 +90,7 @@ class ChatViewModel @AssistedInject constructor(
         }
     }
 
-    private fun getChatContent() {
+    private fun getChatContent(channelId: String) {
         repository.getMessages(channelId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -111,6 +110,23 @@ class ChatViewModel @AssistedInject constructor(
                     showSnackbar(error.message)
                 }
             })
+        subscribeForNotification(channelId)
+        registerUserIdToChannel(channelId)
+    }
+
+    private fun registerUserIdToChannel(channelId: String) {
+        repository.registerUserIdToChannel(channelId)
+    }
+
+    private fun subscribeForNotification(chanelId: String) {
+        repository.subscribeForNotification(chanelId)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    showToast(message = "Subscribe to topic: group_$chanelId")
+                } else {
+                    showToast(message = "Failed to subscribe to topic: group_$chanelId")
+                }
+            }
     }
 
 }

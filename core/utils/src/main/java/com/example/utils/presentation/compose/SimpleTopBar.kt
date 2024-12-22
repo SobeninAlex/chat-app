@@ -1,5 +1,6 @@
 package com.example.utils.presentation.compose
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,7 +31,7 @@ fun SimpleTopBar(
     navigationIconContentColor: Color = MainColor,
     titleContentColor: Color = MaterialTheme.colorScheme.onBackground,
     actionIconContentColor: Color = MainColor,
-    actions: (@Composable () -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(
         title = {
@@ -44,9 +45,7 @@ fun SimpleTopBar(
                 NavigationTopBarIcon(onClick = back)
             }
         },
-        actions = {
-            actions?.invoke()
-        },
+        actions = actions,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = containerColor,
             navigationIconContentColor = navigationIconContentColor,
