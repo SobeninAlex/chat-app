@@ -1,5 +1,6 @@
 package com.example.utils.presentation
 
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -15,12 +16,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import com.example.resourse.BlackColor05
+import com.example.resourse.BlackColor10
 import kotlinx.coroutines.delay
 
 fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
@@ -58,55 +61,40 @@ fun Modifier.clickableOnce(onClick: () -> Unit): Modifier = composed(
  * на любом другом = WhiteColor50
  */
 fun Modifier.shimmerEffect(
-    isEnabled: Boolean = true,
     first: Color = Color.Transparent,
-    second: Color = BlackColor05, //WhiteColor50
+    second: Color = BlackColor10, //WhiteColor50
+    durationMillis: Int = 1800,
 ): Modifier = composed {
-    if (!isEnabled) return@composed Modifier
-
+    val transition = rememberInfiniteTransition(label = "")
     var size by remember { mutableStateOf(IntSize.Zero) }
 
-    val transition = rememberInfiniteTransition(label = "")
-
-    val startOffsetX by transition.animateFloat(
+    val translateAnimation  by transition.animateFloat(
         label = "",
         initialValue = -1f * size.width.toFloat(),
         targetValue = 1f * size.width.toFloat(),
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2000),
+            animation = tween(
+                durationMillis = durationMillis,
+                easing = LinearEasing
+            ),
             repeatMode = RepeatMode.Restart
         )
     )
 
-    //todo: горизонтальный градиент
-//    background(
-//        brush = Brush.horizontalGradient(
-//            colors = listOf(
-//                first,
-//                second,
-//                second,
-//                first
-//            ),
-//            startX = startOffsetX,
-//            endX = startOffsetX + size.width.toFloat()
-//        )
-//    ).onGloballyPositioned {
-//        size = it.size
-//    }
-
-    //todo: диагональный градиент
-    background(
-        brush = Brush.linearGradient(
-            colors = listOf(
-                first,
-                second,
-                second,
-                first
-            ),
-            start = Offset(startOffsetX, 0f),
-            end = Offset(startOffsetX + size.width.toFloat(), size.width.toFloat() / 3)
+    drawBehind {
+        drawRect(
+            brush = Brush.horizontalGradient(
+                colors = listOf(
+                    first,
+                    second,
+                    second,
+                    first
+                ),
+                startX = translateAnimation,
+                endX = translateAnimation + size.width.toFloat()
+            )
         )
-    ).onGloballyPositioned {
+    }.onGloballyPositioned {
         size = it.size
     }
 }

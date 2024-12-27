@@ -2,6 +2,7 @@ package com.example.auth.presentation.sign_in
 
 data class SignInUiState(
     val loading: Boolean = false,
+    val refresh: Boolean = false,
     val email: String = "",
     val password: String = ""
 ) {

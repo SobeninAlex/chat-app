@@ -18,6 +18,11 @@ class SignInViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SignInUiState())
     val uiState = _uiState.asStateFlow()
 
+    //todo: test
+    init {
+        _uiState.update { it.copy(refresh = true) }
+    }
+
     fun onEvent(event: SignInEvent) = when (event) {
         is SignInEvent.ChangeEmail -> {
             _uiState.update { old ->

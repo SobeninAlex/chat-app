@@ -29,21 +29,18 @@ class ChatApp : Application() {
     @Inject
     lateinit var coreProvider: CoreProvider
 
-    @Inject
-    lateinit var firebaseAuth: FirebaseAuth
-
     override fun onCreate() {
         super.onCreate()
         Core.init(coreProvider)
-        firebaseAuth.currentUser?.let {
-            initZegoService(
-                application = this,
-                appID = Constants.APP_ID,
-                appSign = Constants.APP_SIGN,
-                userID = it.email!!,
-                userName = it.email!!
-            )
-        }
+//        firebaseAuth.currentUser?.let {
+//            initZegoService(
+//                application = this,
+//                appID = Constants.APP_ID,
+//                appSign = Constants.APP_SIGN,
+//                userID = it.email!!,
+//                userName = it.email!!
+//            )
+//        }
     }
 
 }
